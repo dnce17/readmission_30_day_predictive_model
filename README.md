@@ -1,4 +1,4 @@
-# Readmission Risk in Diabetic Patients
+# 30-Day Readmission Predictive Model for Diabetic Patients
 <a id="readme-top"></a>
 
 <!-- TABLE OF CONTENTS -->
