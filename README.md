@@ -1,59 +1,123 @@
 # Readmission Risk in Diabetic Patients
-This Python code is part of a larger project for our 2025 Spring Semester Group Project, which involves ultimately creating a comprehensive presentation that showcases our team's full data science pipeline. This repo showcases number 2, 3, 4, and 5 of the instructions below (Data Retrieval & Cleaning, Model Development & Selection, and Predictive Analysis, respectively) as they were my primary roles. 
+<a id="readme-top"></a>
 
-## Goal
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about">About</a>
+      <ul>
+        <li><a href="#primary-goal">Primary Goal</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#predictive-modeling-workflow-summary">Predictive Modeling Workflow Summary</a>
+      <ul>
+        <li><a href="#1-exploratory-data-analysis">1) Exploratory Data Analysis</a></li>
+        <li><a href="#2-data-cleaning">2) Data Cleaning</a></li>
+        <li><a href="#3-modeling">3) Modeling</a></li>
+        <li><a href="#models-tested">Models Tested</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#findings">Findings</a>
+      <ul>
+        <li><a href="#top-20-most-influential-features">Top 20 Most Influential Features</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#tableau-visualization">Tableau Visualization</a>
+      <ul>
+        <li><a href="#dashboard-image">Dashboard Image</a></li>
+        <li><a href="#analysis-and-insights">Analysis and Insights</a></li>
+      </ul>
+    </li>
+  </ol>
+</details>
+
+
+## About
+This project is part of a larger project for our 2025 Spring Semester Group Project in Stony Brook's Health Informatics program. My primary contribution included the following:
+ * Created a predictive model to identify features most strongly associated with 30-day readmission
+ * Co-designed a Tableau dashboard and extracted actionable insights from the data
+
+### Primary Goal
 Identify which data elements are most strongly associated with the probability of readmission within 30 days.
 
-## Dataset
-[Diabetes 130-US Hospitals for Years 1999-2008](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) from the UC Irvine Machine Learning Repository
-  * NOTE: All patients have type 2 diabetes in this dataset
+### Dataset
+[Diabetes 130-US Hospitals (1999-2008)](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008)  
+ * **Source**: UC Irvine Machine Learning Repository
+ * **Note**:
+   * All patients have type 2 diabetes in this dataset
+   * A copy of the dataset is also included in this repo, located in `datasets/diabetes_data.csv`
+   * Some features, such as `admission_type_id`, are numeric codes that map to categorical values. These codes do not have inherent numerical meaning. A mapping file (`datasets/ids_mapping.csv`) is included to interpret these codes.
 
-## Full Project Instruction
-In a group of 4 or 5, complete the following:
-1. Technologies & Environment:
-    * Identify and describe the tools and technologies used in your data science environment (e.g., Python, Jupyter Notebooks, cloud platforms, AI).
-    * Network diagram
-    * Data flow diagram
-2. Data Retrieval & Cleaning:
-    * Explain your data retrieval process, including the source and format of the data.
-    * Detail your data cleaning steps: handling missing values, filtering, transformations, and feature engineering.
-3. Model Development & Selection:
-    * Discuss the models you evaluated (e.g., logistic regression, decision trees, random forests, neural networks).
-    * Justify your choice of the final model based on performance metrics.
-4. Predictive Analysis:
-    * Identify the data elements and features that were most influential in predicting patient remediation within 30 days.
-    * Include relevant statistical analyses and significance testing.
-5. Visualizing Results:
-    * Create clear and impactful visualizations (graphs, charts, heatmaps) to communicate your findings.
-    * Summarize insights gained from the analysis and discuss potential real-world implications.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## Target Metric
-* Primary: **AUC**
-* Secondary: **recall**
 
-## Code Overview
+## Predictive Modeling Workflow Summary
 * Target column: **readmitted**
-* Data Cleaning
-    * Dropped features based on the following criteria
-        * Not as relevant or contains protected health information (e.g. encounter_id, number_diagnoses)
-        * Missing significant percentage of data
-        * Dropping them boosted AUC performance
-    * Removed duplicates
-    * Replacing missing values with "Unknown"
-    * Unified null-like values. We standardized categorical codes representing unknown or missing data (like 5 = NULL, 6 = Missing) into a single "Unknown" category for consistency.
-    * Created two new features—**insulin_only** and **triple_therapy**—as they led to higher AUC
-* Broke data up into training, validation, and test using a 70-15-15 split
-* Treated class imbalance w/ **over-sampling**
-* Tested 9 models for best AUC
-* Conducted hyperparametering tuning on the best model to improve AUC
+* Primary metric: **AUC**
 
-### Models Tested
+### 1) Exploratory Data Analysis
+ * The dataset is **highly imbalanced**
+   * 90,409 patients (~89%) had **late or no readmissions**  
+   * 11,357 patients (~11%) were **readmitted within 30 days**
+
+### 2) Data Cleaning
+1. Drop unnecessary columns
+<table>
+  <thead>
+    <tr>
+      <th>Column(s)</th>
+      <th>Reason for Dropping</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>encounter_id</code>, <code>patient_nbr</code></td>
+      <td>Not relevant and contains PHI</td>
+    </tr>
+    <tr>
+      <td><code>diag_1</code>, <code>diag_2</code>, <code>diag_3</code></td>
+      <td>Instructed not to work with these for this project</td>
+    </tr>
+    <tr>
+      <td><code>max_glu_serum</code></td>
+      <td>Missing significant percentage of data</td>
+    </tr>
+    <tr>
+      <td><code>num_medications</code>, <code>number_diagnoses</code></td>
+      <td>Dropping these ended up improving AUC</td>
+    </tr>
+    <tr>
+      <td><code>weight</code></td>
+      <td>Missing significant percentage of data</td>
+    </tr>
+    <tr>
+      <td><code>medical_specialty</code></td>
+      <td>Missing significant percentage of data</td>
+    </tr>
+  </tbody>
+</table>
+
+2. Removed duplicates
+3. Unified null-like values by standardizing categorical codes representing unknown or missing data (like 5 = NULL, 6 = Missing) into a single "Unknown" category for consistency
+4. Feature Engineering
+
+### 3. Modeling
+1. Split the dataset into **training (70%)**, **validation (15%)**, and **test (15%)** sets
+2. Over-sampling the imbalanced data
+3. Generated nine machine learning model, with **Random Forest** having the best AUC performance
+#### Models Tested
 <table style="font-size: 20px;">
   <tr>
     <td>Logistic Regression</td>
     <td>Decision Tree</td>
-    <td>Random Forest</td>
+    <td><b>Random Forest</b></td>
   </tr>
   <tr>
     <td>KNN</td>
@@ -66,19 +130,30 @@ In a group of 4 or 5, complete the following:
     <td>XGB</td>
   </tr>
 </table>
-    
+5. Conducted hyperparameter tuning on **Random Forest** to further boost AUC
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 ## Findings
-* Best Model: **Random Forest**
-* Top 20 Most Influential Features
+* **Best Performing Model**: Random Forest
+
+### Top 20 Most Influential Features
 ![top 20 features](imgs/top_20_features.png)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# Insights from Visualization
+
+
+## Tableau Visualization
+### Dashboard Image
 ![diabetes readmission dashboard](imgs/dashboard_diabetes_readmission.png)
 
-There are a lot of emergencies for inpatient visits and lots of patients readmitted within 30 days (primarily those who take diabetes medicine). For patients admitted for emergencies, thorough evaluation should be conducted and careful post-discharge planning should be done for patients before they are sent back home. Since a lot of patients taking diabetes medicine (and patients in general) are being readmitted, there are possibly issues with the quality of care. 
+### Analysis and Insights
 
-The average time in the hospital for most patients is higher than the average length of stay (4.5 to 5.5 days) in the US. We found it concerning that most patients stayed above the average, which may indicate underlying issues such as delays in receiving timely care, staff shortages, inefficiencies in hospital processes, priorities being placed in the wrong places, or broader concerns around the quality and coordination of care being provided.
+* There were  many emergency inpatient visits and a significant number of patients being readmitted within 30 days, especially those taking diabetes medications. This highlights a possible need for more thorough evaluation and careful post-discharge planning before patients are sent home.
 
-The dataset contains patients who all have type 2 diabetes, and metformin is widely regarded as the first-line treatment for this condition. Given the high number of emergency admissions amongst type 2 diabetic patients who are not taking metformin, this raises concerns about whether these patients are being managed according to standard clinical guidelines. It may reflect issues such as poor medication adherence, health conditions that prevent patients from taking metformin, gaps in the continuity of care, or issues with insurance—all of which warrant further investigation.
+* All patients in the dataset have type 2 diabetes, and metformin is generally the recommended first-line treatment. The high number of emergency admissions among patients **not taking metformin** raises concerns about adherence to clinical guidelines. Possible contributing factors include poor medication adherence, health conditions preventing metformin use, gaps in continuity of care, or problems wtih insurance. These issues warrant further investigation.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
