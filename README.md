@@ -71,8 +71,10 @@ Identify which data elements are most strongly associated with the probability o
    * 90,409 patients (~89%) had **late or no readmissions**  
    * 11,357 patients (~11%) were **readmitted within 30 days**
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### 2) Data Cleaning
-1. Drop unnecessary columns
+1. Dropped unnecessary columns
 <table>
   <thead>
     <tr>
@@ -90,20 +92,12 @@ Identify which data elements are most strongly associated with the probability o
       <td>Instructed not to work with these for this project</td>
     </tr>
     <tr>
-      <td><code>max_glu_serum</code></td>
+      <td><code>max_glu_serum, <code>weight</code>, <code>medical_specialty</code></code></td>
       <td>Missing significant percentage of data</td>
     </tr>
     <tr>
       <td><code>num_medications</code>, <code>number_diagnoses</code></td>
       <td>Dropping these ended up improving AUC</td>
-    </tr>
-    <tr>
-      <td><code>weight</code></td>
-      <td>Missing significant percentage of data</td>
-    </tr>
-    <tr>
-      <td><code>medical_specialty</code></td>
-      <td>Missing significant percentage of data</td>
     </tr>
   </tbody>
 </table>
@@ -112,10 +106,12 @@ Identify which data elements are most strongly associated with the probability o
 3. Unified null-like values by standardizing categorical codes representing unknown or missing data (like 5 = NULL, 6 = Missing) into a single "Unknown" category for consistency
 4. Feature Engineering
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### 3. Modeling
-1. Split the dataset into **training (70%)**, **validation (15%)**, and **test (15%)** sets
-2. Over-sampling the imbalanced data
-3. Generated nine machine learning model, with **Random Forest** having the best AUC performance
+1. Split the dataset into **training (70%)**, **validation (15%)**, and **test (15%)** set
+2. Over-sampled the imbalanced data
+3. Generated nine machine learning models, with **Random Forest** having the best AUC performance
 #### Models Tested
 <table style="font-size: 20px;">
   <tr>
@@ -134,7 +130,8 @@ Identify which data elements are most strongly associated with the probability o
     <td>XGB</td>
   </tr>
 </table>
-5. Conducted hyperparameter tuning on **Random Forest** to further boost AUC
+
+5. Conducted hyperparameter tuning on the **Random Forest** model to further boost AUC
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
