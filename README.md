@@ -17,13 +17,18 @@
       <ul>
         <li><a href="#1-exploratory-data-analysis">1) Exploratory Data Analysis</a></li>
         <li><a href="#2-data-cleaning">2) Data Cleaning</a></li>
-        <li><a href="#3-modeling">3) Modeling</a></li>
-        <li><a href="#models-tested">Models Tested</a></li>
+        <li>
+          <a href="#3-modeling">3) Modeling</a>
+          <ul>
+            <li><a href="#models-tested">Models Tested</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li>
       <a href="#findings">Findings</a>
       <ul>
+        <li><a href="#best-performing-model">Best Performing Model</a></li>
         <li><a href="#top-20-most-influential-features">Top 20 Most Influential Features</a></li>
       </ul>
     </li>
@@ -36,7 +41,6 @@
     </li>
   </ol>
 </details>
-
 
 ## About
 This project is part of a larger project for our 2025 Spring Semester Group Project in Stony Brook's Health Informatics program. My primary contribution included the following:
@@ -137,7 +141,8 @@ Identify which data elements are most strongly associated with the probability o
 
 
 ## Findings
-* **Best Performing Model**: Random Forest
+### Best Performing Model
+* Random Forest
 
 ### Top 20 Most Influential Features
 ![top 20 features](imgs/top_20_features.png)
