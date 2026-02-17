@@ -156,6 +156,6 @@ Identify which data elements are most strongly associated with the probability o
 
 * There were  many emergency inpatient visits and a significant number of patients being readmitted within 30 days, especially those taking diabetes medications. This highlights a possible need for more thorough evaluation and careful post-discharge planning before patients are sent home.
 
-* All patients in the dataset have type 2 diabetes, and metformin is generally the recommended first-line treatment. The high number of emergency admissions among patients **not taking metformin** raises concerns about adherence to clinical guidelines. Possible contributing factors include poor medication adherence, health conditions preventing metformin use, gaps in continuity of care, or problems wtih insurance. These issues warrant further investigation.
+* All patients in the dataset have type 2 diabetes, and metformin is generally the recommended first-line treatment. The high number of emergency admissions among patients **not taking metformin** raises concerns about adherence to clinical guidelines. Possible contributing factors include poor medication adherence, health conditions preventing metformin use, gaps in continuity of care, or problems with insurance. These issues warrant further investigation.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
